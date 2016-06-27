@@ -11,7 +11,8 @@ import java.util.UUID;
 
 /**
  * Created by lance.zhou on 2016/6/12.
- * https://docs.oracle.com/javaee/7/tutorial/servlets012.htm
+ * Servlet 3.0 https://docs.oracle.com/javaee/7/tutorial/servlets012.htm
+ * Tomcat https://tomcat.apache.org/tomcat-7.0-doc/config/http.html#NIO_specific_configuration
  */
 public class AsyncTaskServlet extends HttpServlet { //thread per request: tomcat
 
