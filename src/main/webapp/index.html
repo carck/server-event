@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>Server Event</title>
+</head>
+<body>
+<div id="eventList"></div>
+<script>
+    function test() {
+        var evtSource = new EventSource("/async");
+        //var eventList = document.getElementById("eventList");
+
+        evtSource.addEventListener('open', function (event) {
+            console.log(event.type);
+        });
+
+        evtSource.addEventListener('error', function (event) {
+            console.log(event.type);
+            evtSource.close();
+        });
+
+        evtSource.addEventListener('ping', function (event) {
+            //var newElement = document.createElement("li");
+            //newElement.innerHTML = "event: " + event.type;
+            //eventList.appendChild(newElement);
+            console.log("ping");
+        });
+
+        evtSource.addEventListener('message', function (event) {
+            //var newElement = document.createElement("li");
+            //newElement.innerHTML = "event: " + event.type + " data: " + event.data;
+            //eventList.appendChild(newElement);
+            console.log(event.type);
+            console.log(event.data);
+
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        for (var i = 0; i < 7; i++) {
+            test();
+        }
+    }, false);
+
+</script>
+</body>
+</html>
