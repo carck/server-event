@@ -7,7 +7,8 @@
 <script>
     function test() {
         var evtSource = new EventSource("/async");
-        //var eventList = document.getElementById("eventList");
+        var eventList = document.getElementById("eventList");
+        var crazy = /crazy=.*/.test(document.location.href);
 
         evtSource.addEventListener('open', function (event) {
             console.log(event.type);
@@ -19,16 +20,20 @@
         });
 
         evtSource.addEventListener('ping', function (event) {
-            //var newElement = document.createElement("li");
-            //newElement.innerHTML = "event: " + event.type;
-            //eventList.appendChild(newElement);
+            if (!crazy) {
+                var newElement = document.createElement("li");
+                newElement.innerHTML = "event: " + event.type;
+                eventList.appendChild(newElement);
+            }
             console.log("ping");
         });
 
         evtSource.addEventListener('message', function (event) {
-            //var newElement = document.createElement("li");
-            //newElement.innerHTML = "event: " + event.type + " data: " + event.data;
-            //eventList.appendChild(newElement);
+            if (!crazy) {
+                var newElement = document.createElement("li");
+                newElement.innerHTML = "event: " + event.type + " data: " + event.data;
+                eventList.appendChild(newElement);
+            }
             console.log(event.type);
             console.log(event.data);
 
@@ -36,7 +41,9 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        for (var i = 0; i < 1000; i++) {
+        var crazy = /crazy=.*/.test(document.location.href);
+        var concurrent = crazy ? 1000 : 1;
+        for (var i = 0; i < concurrent; i++) {
             test();
         }
     }, false);
